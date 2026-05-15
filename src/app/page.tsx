@@ -10,15 +10,12 @@ type PlatformPrice = {
 
 type SearchResult = {
   itemName: string;
+  hashName?: string;
   prices: PlatformPrice[];
 };
 
 // 几个常用饰品的示例(用户可以一键填入)
-const EXAMPLES = [
-  "AK-47 | Redline (Field-Tested)",
-  "AWP | Asiimov (Field-Tested)",
-  "M4A4 | Asiimov (Field-Tested)",
-];
+const EXAMPLES = ["AK-47 红线", "AWP 阿西莫夫", "M4A4 龙王"];
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -89,7 +86,7 @@ export default function Home() {
                 if (e.key === "Enter") handleSearch();
               }}
               disabled={loading}
-              placeholder="输入英文 market_hash_name,例如:AK-47 | Redline (Field-Tested)"
+              placeholder="输入饰品名称(支持中文),例如:红线、阿西莫夫、AK-47 红线"
               className="flex-1 bg-[#316282] border border-[#4c6b8a] rounded px-4 py-3 text-white placeholder-[#8f98a0] focus:outline-none focus:border-[#66c0f4] transition-colors disabled:opacity-60"
             />
             <button
@@ -128,8 +125,13 @@ export default function Home() {
         {result && lowest && (
           <section className="mt-12">
             <h3 className="text-xl text-white mb-6">
-              搜索结果:
+              <span className="text-[#8f98a0]">搜索结果:</span>
               <span className="text-[#66c0f4] ml-2">{result.itemName}</span>
+              {result.hashName && result.hashName !== result.itemName && (
+                <span className="block text-xs text-[#67707b] mt-1 font-mono">
+                  {result.hashName}
+                </span>
+              )}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
